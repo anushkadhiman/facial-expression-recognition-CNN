@@ -8,7 +8,7 @@ import numpy as np
 import cv2
 
 #loading the model
-model=joblib.load("C:/Users/AD/Downloads/expression-face.pkl") 
+model=joblib.load("./expression-face.pkl") 
 print("Loaded model from disk")
 
 #setting image resizing parameters
@@ -19,10 +19,10 @@ y=None
 labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
 
 #loading image
-full_size_image = cv2.imread("C:/Users/AD/Downloads/4disguested.jpg")
+full_size_image = cv2.imread("./4disguested.jpg")
 print("Image Loaded")
 gray=cv2.cvtColor(full_size_image,cv2.COLOR_RGB2GRAY)
-face_cascade=cv2.CascadeClassifier('C:/Users/AD/Documents/My documents/Projects/Machine Learning/face recognisation/haarcascade_frontalface_default.xml')
+face_cascade=cv2.CascadeClassifier('./haarcascade_frontalface_default.xml')
 faces = face_cascade.detectMultiScale(gray, 1.3  , 10)
 
 #detecting faces
@@ -35,7 +35,7 @@ for (x, y, w, h) in faces:
         yhat= model.predict(cropped_img)
         cv2.putText(full_size_image, labels[int(np.argmax(yhat))], (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 1, cv2.LINE_AA)
         print("Emotion: "+labels[int(np.argmax(yhat))])
-        path = 'C:/Users/AD/Downloads/imgprd.png' #path to save the image
+        path = './imgprd.png' #path to save the image
         cv2.imwrite(path,full_size_image)  #to save the image
 
 cv2.imshow('Emotion', full_size_image)
